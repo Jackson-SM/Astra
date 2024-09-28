@@ -18,6 +18,7 @@ export const ButtonSelect = ({
       className={cn(
         'm-1 flex min-w-60 items-center justify-between rounded-md border border-border p-2 transition-colors duration-100 hover:bg-accent',
         className,
+        selected && 'bg-accent',
       )}
       {...props}
     >

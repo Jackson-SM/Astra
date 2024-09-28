@@ -1,35 +1,47 @@
 'use client';
 
-import { FreeTime } from '@/components/molecules/Steps/FreeTime';
-import { LearningObjective } from '@/components/molecules/Steps/LearningObjective';
-import { PersonalInterests } from '@/components/molecules/Steps/PersonalInterests';
-import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/Button';
+import StepContext from '@/context/StepContext';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
+import { AnimatePresence } from 'framer-motion';
+import { useContext } from 'react';
 
 export default function Page() {
-  const [step, setStep] = useState(0);
-
-  const steps: JSX.Element[] = [
-    <LearningObjective key="learning-objective" />,
-    <PersonalInterests key="personal-interests" />,
-    <FreeTime key="free-time" />,
-  ];
-  const stepsAmount = steps.length;
-
-  useEffect(() => {
-    console.log('Step:', step);
-  }, [step]);
+  const { steps, currentStep, nextStep, prevStep } = useContext(StepContext);
 
   return (
-    <>
-      <div className="flex overflow-hidden">
-        {steps.map((s, idx) => idx === step && s)}
+    <div className="flex h-screen w-full flex-col items-center justify-around p-4">
+      <h1 className="text-4xl">Qual o seu objetivo ao aprender esse idioma?</h1>
+      <div className="flex h-full w-full items-center justify-center overflow-x-hidden">
+        <AnimatePresence mode="wait">
+          {steps.map((s, idx) => idx === currentStep && s)}
+        </AnimatePresence>
       </div>
-      <button
-        className="bg-primary px-4 py-2 text-white"
-        onClick={() => setStep((c) => (c == stepsAmount - 1 ? 0 : c + 1))}
-      >
-        Next
-      </button>
-    </>
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          onClick={() =>
+            currentStep === 0 ? console.log('Start') : prevStep()
+          }
+          disabled={currentStep === 0}
+          className="group flex gap-2"
+        >
+          Back
+          <IconArrowLeft className="h-4 w-4 transition-transform duration-100 group-hover:translate-x-1" />
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() =>
+            currentStep === steps.length - 1
+              ? console.log('Finish')
+              : nextStep()
+          }
+          className="group flex gap-2"
+        >
+          {currentStep === steps.length - 1 ? 'Finish' : 'Next'}
+          <IconArrowRight className="h-4 w-4 transition-transform duration-100 group-hover:translate-x-1" />
+        </Button>
+      </div>
+    </div>
   );
 }

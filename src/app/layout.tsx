@@ -1,3 +1,4 @@
+import { Header } from '@/components/molecules/Header';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
@@ -23,6 +24,7 @@ export default function RootLayout({
           defaultTheme="dark"
           storageKey="astra-theme"
         >
+          <Header />
           {children}
         </ThemeProvider>
       </body>

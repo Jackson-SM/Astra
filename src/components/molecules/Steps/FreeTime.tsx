@@ -1,36 +1,35 @@
 import { ButtonSelect } from '@/components/atoms/ButtonSelect';
 import { Step } from '@/components/shared/Step';
-import { useState } from 'react';
-import { OptionsType } from './LearningObjective';
+import StepContext, { OptionsType } from '@/context/StepContext';
+import { useContext } from 'react';
 
 export const FreeTime = () => {
-  const [freeTime, setFreeTime] = useState<string[]>([]);
+  const { options, addFreeTime } = useContext(StepContext);
+
+  console.log(options.freeTime);
 
   const timeOptions: OptionsType[] = [
-    { label: 'Menos de 15 minutos', value: 'menos_15_min' },
-    { label: '15 a 30 minutos', value: '15_30_min' },
-    { label: '30 minutos a 1 hora', value: '30_min_1_hora' },
-    { label: '1 a 2 horas', value: '1_2_horas' },
-    { label: 'Mais de 2 horas', value: 'mais_2_horas' },
+    { label: '5 Minutos', value: '5m' },
+    { label: '10 Minutos', value: '10m' },
+    { label: '20 Minutos', value: '20m' },
+    { label: '40 Minutos', value: '40m' },
+    { label: '1 Hora+', value: '1h' },
   ];
 
   return (
     <Step className="w-full flex-shrink-0">
-      <ul>
+      <ul className="flex flex-col items-center justify-center">
         {timeOptions.map((option) => {
           return (
-            <li key={option.value}>
+            <li
+              key={option.value}
+              className="flex w-min flex-col items-center justify-center"
+            >
               <ButtonSelect
-                onClick={() => {
-                  setFreeTime((prev) =>
-                    prev.includes(option.value)
-                      ? prev.filter((item) => item !== option.value)
-                      : [...prev, option.value],
-                  );
-                }}
-                selected={freeTime.includes(option.value)}
+                onClick={() => addFreeTime(option.value)}
+                selected={options.freeTime.includes(option.value)}
               >
-                Menos de 15 minutos
+                {option.label}
               </ButtonSelect>
             </li>
           );

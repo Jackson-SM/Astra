@@ -1,10 +1,12 @@
 import { ButtonSelect } from '@/components/atoms/ButtonSelect';
 import { Step } from '@/components/shared/Step';
-import { useState } from 'react';
-import { OptionsType } from './LearningObjective';
+import StepContext, { OptionsType } from '@/context/StepContext';
+import { useContext } from 'react';
 
 export const PersonalInterests = () => {
-  const [interests, setInterests] = useState<string[]>([]);
+  const { options, addPersonalInterests } = useContext(StepContext);
+
+  console.log(options.personalInterests);
 
   const personalInterestOptions: OptionsType[] = [
     { label: 'Esportes', value: 'esportes' },
@@ -19,19 +21,13 @@ export const PersonalInterests = () => {
 
   return (
     <Step className="w-full flex-shrink-0">
-      <ul>
+      <ul className="flex flex-col items-center justify-center">
         {personalInterestOptions.map((option) => {
           return (
             <li key={option.value}>
               <ButtonSelect
-                onClick={() => {
-                  setInterests((prev) =>
-                    prev.includes(option.value)
-                      ? prev.filter((item) => item !== option.value)
-                      : [...prev, option.value],
-                  );
-                }}
-                selected={interests.includes(option.value)}
+                onClick={() => addPersonalInterests(option.value)}
+                selected={options.personalInterests.includes(option.value)}
               >
                 {option.label}
               </ButtonSelect>
