@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './infra/http/user.module';
+import { HttpModule } from './infra/http/http.module';
+import { ClientKafka } from './infra/providers/kafka/ClientKafka';
 
 @Module({
-  imports: [UserModule],
+  imports: [HttpModule, ClientKafka],
   controllers: [],
   providers: [],
 })

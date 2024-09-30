@@ -17,8 +17,8 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
-  firstName String
-  lastName  String
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 

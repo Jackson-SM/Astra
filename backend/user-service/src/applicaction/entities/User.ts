@@ -1,19 +1,19 @@
-import { randomUUID, UUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 
-type UserProps = {
+interface UserProps {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   createdAt?: Date;
   updatedAt?: Date;
-};
+}
 
 export class User {
-  private _id: UUID;
-  private readonly props: UserProps;
+  private _id: string;
+  private props: UserProps;
 
-  private constructor(props: UserProps, id?: UUID) {
+  constructor(props: UserProps, id?: string) {
     this.props = {
       ...props,
       createdAt: props.createdAt ?? new Date(),
@@ -22,28 +22,36 @@ export class User {
     this._id = id ?? randomUUID();
   }
 
-  public static create(props: UserProps): User {
-    return new User(props);
-  }
-
-  get id(): UUID {
-    return this.id;
+  get id(): string {
+    return this._id;
   }
 
   get email(): string {
     return this.props.email;
   }
+  set email(email: string) {
+    this.props.email = email;
+  }
 
   get password(): string {
     return this.props.password;
+  }
+  set password(password: string) {
+    this.props.password = password;
   }
 
   get firstName(): string {
     return this.props.firstName;
   }
+  set firstName(firstName: string) {
+    this.props.firstName = firstName;
+  }
 
   get lastName(): string {
     return this.props.lastName;
+  }
+  set lastName(lastName: string) {
+    this.props.lastName = lastName;
   }
 
   get createdAt(): Date {
